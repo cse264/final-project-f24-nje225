@@ -1,3 +1,13 @@
+## Backend API
+Every route other than login and register requires a valid JWT token in the Authorization header.
+This will be returned from both the login and register routes, and should be included in the header Authorization : `Bearer <token>`
+The token will expire after 2 hours.
+
+### Auth Routes (/api/auth)
+ - POST /login - User login.  expects {username, password}
+ - POST /register - User registration. expects {username, password, email}
+ - GET /user - Get details of the logged-in user. 
+
 ### Building Routes (/api/buildings)
  - GET / - Get all buildings.
  - GET /:id - Get details of a specific building.
@@ -8,11 +18,6 @@
  - PUT /:id/bathrooms/:bathroomId/reviews/:reviewId - Update an existing review.
  - DELETE /:id/bathrooms/:bathroomId/reviews/:reviewId - Delete a specific review.
  - PUT /:id/bathrooms/:bathroomId/reviews/:reviewId/flag - Flag a review for moderation.
-
-### Auth Routes (/api/auth)
- - POST /login - User login.
- - POST /register - User registration.
- - GET /user - Get details of the logged-in user.
 
 ### Admin Routes (/api/admin)
  - GET /reviews/flagged - Get all flagged reviews.
