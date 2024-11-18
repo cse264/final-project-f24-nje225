@@ -21,12 +21,6 @@ exports.register = async (req, res) => {
 
         const { username, email, password } = req.body;
 
-        // Check if the user already exists
-        const existingUser = await UserModel.findOne({ email });
-        if (existingUser) {
-            return res.status(400).json({ message: 'User already exists' });
-        }
-
         // Hash the password
         const hashedPassword = await bcrypt.hash(password, 10);
 
@@ -104,6 +98,16 @@ exports.getUser = async (req, res) => {
         }
 
         res.status(200).json(user);
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ message: 'Server error' });
+    }
+};
+
+exports.getUsers = async (req, res) => {
+    try {
+        const users = await UserModel.findAll();
+        res.status(200).json(users);
     } catch (err) {
         console.error(err);
         res.status(500).json({ message: 'Server error' });
