@@ -86,9 +86,11 @@ exports.getBuilding = async (req, res) => {
                 totalReviews += batReviews;
             }
         }
-        if (totalReviews > 0)
+        if (totalReviews > 0) {
             building.averageRating = totalRating / totalReviews;
-        res.status(200).json({ building });
+            console.log(building);
+        }
+        res.status(200).json({ "building":building });
         
     } catch (err) {
         console.error(err);
@@ -210,7 +212,7 @@ exports.addReview = async (req, res) => {
             bathroomId,
             rating,
             content,
-            userId: req.user.id, // Assuming `userId` is attached to the request via auth middleware
+            userId: req.userId, // Assuming `userId` is attached to the request via auth middleware
         });
 
         res.status(201).json({
@@ -285,7 +287,7 @@ exports.flagReview = async (req, res) => {
         // Flag the review
         const newFlag = await Flag.create({
             reviewId,
-            userId: req.user.id, // Assuming `userId` is attached to the request via auth middleware
+            userId: req.userId, // Assuming `userId` is attached to the request via auth middleware
         });
 
         res.status(200).json({ message: 'Review flagged successfully', flag: newFlag });

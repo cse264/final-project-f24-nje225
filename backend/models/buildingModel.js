@@ -2,7 +2,6 @@
 
 const { DataTypes } = require('sequelize');
 const sequelize = require('../utils/db');  // Import the Sequelize instance
-const Bathroom = require('./bathroomModel');  // Import Bathroom model for association
 
 // Define the Building model
 const Building = sequelize.define('Building', {
@@ -42,6 +41,12 @@ const Building = sequelize.define('Building', {
         type: DataTypes.DATE,
         allowNull: false,
         defaultValue: DataTypes.NOW,  // Default to the current timestamp
+    },
+    averageRating: {
+        type: DataTypes.VIRTUAL, // Virtual field
+        get() {
+            return this.getDataValue('averageRating') || null; // Default to null if not explicitly set
+        },
     },
 
 }, {

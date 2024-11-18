@@ -28,6 +28,6 @@ router.delete('/reviews/:id', authMiddleware, deleteFlaggedReview);
 router.delete('/bathrooms/:id', authMiddleware, deleteBathroom);
 router.put('/bathrooms/:id', authMiddleware, updateBathroom);
 router.post('/buildings', authMiddleware, addBuilding);
-router.post('/bathrooms', authMiddleware, addBathroom);
+router.post('/buildings/:id/bathrooms', authMiddleware, addBathroom);
 
 module.exports = router;

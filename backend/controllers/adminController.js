@@ -1,6 +1,7 @@
 const Bathroom = require('../models/bathroomModel');
 const Review = require('../models/reviewModel');
 const Flag = require('../models/flagModel');
+const Building = require('../models/buildingModel');
 
 // Middleware to check if user is admin (example)
 const isAdmin = (req, res, next) => {
@@ -60,7 +61,7 @@ exports.deleteFlaggedReview = async (req, res) => {
 // Update a bathroom's details (for admins)
 exports.updateBathroom = async (req, res) => {
     const { id } = req.params;
-    const { name, latitude, longitude, description } = req.body;
+    const { name, description } = req.body;
 
     try {
         const bathroom = await Bathroom.findByPk(id);
@@ -108,15 +109,16 @@ exports.deleteBathroom = async (req, res) => {
 
 // Add a new bathroom (for admins) TODO maybe?
 exports.addBathroom = async (req, res) => {
-    const { name, latitude, longitude, description } = req.body;
+    // get building id from req
+    const { id } = req.params;
+    const { name, description } = req.body;
 
     try {
         // Create a new bathroom in the database
         const newBathroom = await Bathroom.create({
             name,
-            latitude,
-            longitude,
             description,
+            buildingId: id,
         });
 
         res.status(201).json({
@@ -127,7 +129,7 @@ exports.addBathroom = async (req, res) => {
         console.error(err);
         res.status(500).json({ message: 'Error adding bathroom' });
     }
-};
+}
 
 // add a new building (for admins)
 exports.addBuilding = async (req, res) => {

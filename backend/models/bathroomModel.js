@@ -22,6 +22,12 @@ const Bathroom = sequelize.define('Bathroom', {
         type: DataTypes.STRING,
         allowNull: true,  // Description is optional
     },
+    averageRating: {
+        type: DataTypes.VIRTUAL, // Virtual field
+        get() {
+            return this.getDataValue('averageRating') || null; // Default to null if not explicitly set
+        },
+    },
 
     // Date of bathroom addition (automatically managed by Sequelize)
     createdAt: {
