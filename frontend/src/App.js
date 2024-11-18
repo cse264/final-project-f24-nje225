@@ -1,19 +1,23 @@
 import React from 'react';
-import Map from './Map';
-import './App.css';
-import logo from './LooReviewFinal.png';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+
+import Map from './Pages/MapPage';
+import Reviews from './Pages/Reviews';
+import Login from './Pages/Login';
+import SignUp from './Pages/Signup';
 
 function App() {
   return (
-    <div className="page-container">
-      <div className="title-container">
-        <img src={logo} alt="Lehigh Logo" className="logo" />
-        <h1>Lehigh Loo Review</h1>
-      </div>
-      <div id="map-container">
-        <Map />
-      </div>
-    </div>
+    <Router>
+        <div>
+          <Routes>
+            <Route path="/" element={<Login />} />
+            <Route path="/signup" element={<SignUp />} />
+            <Route path="/map" element={<Map/>}/>
+            <Route path="/reviews/:id" element={<Reviews />} />
+          </Routes>
+        </div>
+    </Router>
   );
 }
 

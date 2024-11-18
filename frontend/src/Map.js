@@ -1,5 +1,6 @@
 import { useRef, useEffect } from 'react'
 import mapboxgl from 'mapbox-gl'
+import { useNavigate } from 'react-router-dom';
 
 import 'mapbox-gl/dist/mapbox-gl.css';
 
@@ -7,6 +8,7 @@ export default function Map() {
 
   const mapRef = useRef()
   const mapContainerRef = useRef()
+  const navigate = useNavigate();
 
   useEffect(() => {
     mapboxgl.accessToken = 'pk.eyJ1IjoiY3VsYmUiLCJhIjoiY2xubTF3Z25sMXJqZDJzbzJ4eGFjdTRwMSJ9.mQ3GOs7GFeNj30sbiXaj1g'
@@ -83,6 +85,7 @@ export default function Map() {
         // creaet an event marker for each feature aka each building
         marker.getElement().addEventListener('click', () => {
           console.log(`Marker "${name}" clicked`);
+          navigate(`/reviews/${name}`);
         });
       });
 
