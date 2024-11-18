@@ -21,9 +21,9 @@ exports.register = async (req, res) => {
 
         const { username, email, password } = req.body;
 
-        // Check if the user already exists
-        const existingUser = await UserModel.findOne({ email });
-        if (existingUser) {
+        // Check if user exists
+        const user = await UserModel.findByPk(username);
+        if (user) {
             return res.status(400).json({ message: 'User already exists' });
         }
 
@@ -58,7 +58,7 @@ exports.register = async (req, res) => {
 // User Login
 exports.login = async (req, res) => {
     try {
-        const { email, password } = req.body;
+        const { username, password } = req.body;
 
         // Validate input
         const errors = validationResult(req);
@@ -67,15 +67,15 @@ exports.login = async (req, res) => {
         }
 
         // Check if user exists
-        const user = await UserModel.findOne({ email });
+        const user = await UserModel.findByPk(username);
         if (!user) {
-            return res.status(400).json({ message: 'Invalid credentials' });
+            return res.status(400).json({ message: 'Invalid credentials 1' });
         }
 
         // Compare password
         const isMatch = await bcrypt.compare(password, user.password);
         if (!isMatch) {
-            return res.status(400).json({ message: 'Invalid credentials' });
+            return res.status(400).json({ message: 'Invalid credentials 2' });
         }
 
         // Generate JWT token
@@ -104,6 +104,16 @@ exports.getUser = async (req, res) => {
         }
 
         res.status(200).json(user);
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ message: 'Server error' });
+    }
+};
+
+exports.getUsers = async (req, res) => {
+    try {
+        const users = await UserModel.findAll();
+        res.status(200).json(users);
     } catch (err) {
         console.error(err);
         res.status(500).json({ message: 'Server error' });

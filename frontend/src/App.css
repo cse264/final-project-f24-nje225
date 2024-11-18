@@ -36,8 +36,8 @@ html, body {
 
 /* Container holding the map */
 #map-container {
-  width: 70%; /* Map width */
-  height: 70%; /* Map height */
+  width: 90%; /* Map width */
+  height: 80%; /* Map height */
   border-radius: 40px; /* Rounded corners */
   box-shadow: 0 6px 10px rgba(0, 0, 0, 0.75); /* shadow */ 
 }
