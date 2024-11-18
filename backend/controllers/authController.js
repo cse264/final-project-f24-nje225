@@ -21,6 +21,12 @@ exports.register = async (req, res) => {
 
         const { username, email, password } = req.body;
 
+        // Check if user exists
+        const user = await UserModel.findByPk(username);
+        if (user) {
+            return res.status(400).json({ message: 'User already exists' });
+        }
+
         // Hash the password
         const hashedPassword = await bcrypt.hash(password, 10);
 
@@ -52,7 +58,7 @@ exports.register = async (req, res) => {
 // User Login
 exports.login = async (req, res) => {
     try {
-        const { email, password } = req.body;
+        const { username, password } = req.body;
 
         // Validate input
         const errors = validationResult(req);
@@ -61,15 +67,15 @@ exports.login = async (req, res) => {
         }
 
         // Check if user exists
-        const user = await UserModel.findOne({ email });
+        const user = await UserModel.findByPk(username);
         if (!user) {
-            return res.status(400).json({ message: 'Invalid credentials' });
+            return res.status(400).json({ message: 'Invalid credentials 1' });
         }
 
         // Compare password
         const isMatch = await bcrypt.compare(password, user.password);
         if (!isMatch) {
-            return res.status(400).json({ message: 'Invalid credentials' });
+            return res.status(400).json({ message: 'Invalid credentials 2' });
         }
 
         // Generate JWT token
