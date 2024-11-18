@@ -1,24 +1,49 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 function SignUp() {
+    const navigate = useNavigate();
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const [email, setEmail] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
   
-    const handleSignUp = (e) => {
+    const handleSignUp = async (e) => {
       e.preventDefault();
   
       if (password !== confirmPassword) {
         setErrorMessage('Passwords do not match!');
         return;
       }
-  
-      console.log('Username:', username);
-      console.log('Password:', password);
-      alert(`Signed up successfully with Username: ${username}`);
-      // Integrate with your backend for user creation
-      setErrorMessage(''); // Clear error message if successful
+
+      // Need to access username, email, password here
+      try {
+        const response = await fetch('http://localhost:5000/api/auth/register', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            username,
+            email,
+            password,
+          }),
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+          console.log('Registration successful:', data);
+          // Save token if needed
+          // localStorage.setItem('token', data.token);
+          navigate('/');
+        } else {
+          console.error('Registration failed:', data.message || data.errors);
+          alert(data.message || 'Failed to register');
+        }
+      } catch (err) {
+        console.error('Error:', err);
+        alert('An error occurred. Please try again.');
+      }
     };
   
     return (
@@ -49,6 +74,20 @@ function SignUp() {
                 placeholder="Username..."
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
+                style={{
+                  width: '100%',
+                  padding: '8px',
+                  marginTop: '5px',
+                  boxSizing: 'border-box',
+                }}
+              />
+            </div>
+            <div style={{ marginBottom: '15px' }}>
+              <input
+                type="email"
+                placeholder="Email..."
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
                 style={{
                   width: '100%',
                   padding: '8px',

@@ -8,17 +8,39 @@ function Login() {
   
     const navigate = useNavigate();
   
-    const handleLogin = (e) => {
-        /* Here is where I will have to have API access to verify logins */
-        e.preventDefault();
-        console.log('Username:', username);
-        console.log('Password:', password);
-        // Simulate successful login
-        navigate('/map'); 
+    const handleLogin = async (e) => {
+      e.preventDefault();
+      try {
+        const response = await fetch('http://localhost:5000/api/auth/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            username,
+            password,
+          }),
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+          console.log('Login successful:', data);
+          /* 
+          Need to pass token here 
+          */
+          navigate('/map');
+        } else {
+          console.error('Login failed:', data.message || data.errors);
+          alert(data.message || 'Failed to login');
+        }
+      } catch (err) {
+        console.error('Error:', err);
+        alert('An error occurred. Please try again.');
+      }
     };
 
-    const handleSignUp = () => {
-        navigate('/signup')
+
+    const handleSignUp = async () => {
+      navigate('/signup')
     };
   
     return (
