@@ -1,14 +1,51 @@
-#root {
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  overflow: hidden;
+  background-color: #98BC9C;
 }
 
+.page-container {
+  display: flex;
+  flex-direction: column; 
+  align-items: center;
+  justify-content: flex-start; 
+  height: 100vh;
+}
+
+.title-container {
+  display: flex;
+  align-items: center; /* Vertically align logo and text */
+  justify-content: center;
+  padding:2%;
+  color: rgb(0, 0, 0);
+}
+
+.title-container img {
+  height: 50px; /* Adjust height to fit header */
+  width: auto; /* Maintain aspect ratio */
+  margin-right: 10px;
+}
+
+.title-container h1 {
+  font-size: 2rem;
+  margin: 0;
+  font-family: 'Georgia', serif;
+}
+
+/* Container holding the map */
 #map-container {
-  height: 100%;
-  width: 100%;
-  /* temporarily set the background color so we can tell where the map container is positioned */
-  background-color: lightgrey;
+  width: 70%; /* Map width */
+  height: 70%; /* Map height */
+  border-radius: 40px; /* Rounded corners */
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.75); /* shadow */ 
+}
+
+/* Actual Map */
+#map-inner-container {
+  width: 100%; /* Fill the parent container */
+  height: 100%; /* Fill the parent container */
+  border-radius: inherit; /* Inherit rounded corners */
+  overflow: hidden; /* Prevent map overflow */
 }

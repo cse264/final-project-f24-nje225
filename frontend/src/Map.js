@@ -15,76 +15,83 @@ export default function Map() {
     // });
     mapRef.current = new mapboxgl.Map({
       container: mapContainerRef.current,
-      center: [31.134799, 29.975990],
+      center: [-77.1945, 41.2033],
       zoom: 2
     });
  
     console.log("flying")
     mapRef.current.flyTo({
-      center: [-74.0242, 40.6941],
-      zoom: 10.12,
+      center: [-75.378259, 40.607314],
+      zoom: 14,
       essential: true
     });   
 
-    mapRef.current.on('click', (event) => {
-      console.log('clicked')
-      // If the user clicked on one of your markers, get its information.
-      const features = mapRef.current.queryRenderedFeatures(event.point, {
-        layers: ['test-layer'] // replace with your layer name
-      });
-      if (!features.length) {
-        console.log('no match')
-        return;
-      }
-      console.log("match")
-      // const feature = features[0];
     
-      // Code from the next step will go here.
-    });
-    const data = 
-    {
-      "type": "Feature",
-      "geometry": {
-        "coordinates": [
-          35.667067,
-          7.541619
-        ],
-        "type": "Point"
-      }
-    }
+    
+    /*
+    STEPS: -75.378544, 40.608357
+    Linderman: -75.377018, 40.606679
+    Hawks Nest: -75.376221, 40.605569
+    */
+    const data = {
+      type: "FeatureCollection",
+      features: [
+        {
+          type: "Feature",
+          geometry: {
+            type: "Point",
+            coordinates: [-75.379013, 40.607830],
+          },
+          properties:{
+            name: "Packard"
+          }
+        },
+        {
+          type: "Feature",
+          geometry: {
+            type: "Point",
+            coordinates: [-75.377284, 40.608541],
+          },
+          properties:{
+            name: "Neville"
+          }
+        },
+        {
+          type: "Feature",
+          geometry: {
+            type: "Point",
+            coordinates: [-75.377899, 40.608727],
+          },
+          properties:{
+            name: "FML"
+          }
+        },
+      ],
+    };
+      
+    // add markers to the map
+    mapRef.current.on('load', () => {
+      data.features.forEach((feature) => {
+        const coordinates = feature.geometry.coordinates;
+        const {name} = feature.properties;
 
-  mapRef.current.on('load', () => {
+        // make a new marker for each feature
+        const marker = new mapboxgl.Marker()
+          .setLngLat(coordinates)
+          .addTo(mapRef.current);
 
-
-    mapRef.current.addSource('data', {
-      type: 'geojson',
-      data: data,
+        // creaet an event marker for each feature aka each building
+        marker.getElement().addEventListener('click', () => {
+          console.log(`Marker "${name}" clicked`);
+        });
       });
 
-    mapRef.current.addLayer({
-      'id': 'test-layer',
-      'type': 'circle',
-      'source': 'data',
-      'layout': {
-          'visibility': 'visible',
-      },
-      'paint': {
-          'circle-radius': 40,
-          'circle-color': 'rgba(255,0,255,0.5)'
-      }
-      });
     });
-
-    return () => {
-      mapRef.current.remove()
-    }
-  }, [])
-
-
+  }, []);
 
   return (
     <>
-      <div id='map-container' ref={mapContainerRef}/>
+      <div id='map-inner-container' ref={mapContainerRef}/>
     </>
   )
 }
