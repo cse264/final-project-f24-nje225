@@ -7,7 +7,7 @@ const { validationResult } = require('express-validator');
 
 // Helper function to generate JWT token
 const generateToken = (userId, role) => {
-    return jwt.sign({ userId, role }, process.env.JWT_SECRET, { expiresIn: '1h' });
+    return jwt.sign({ userId, role }, process.env.JWT_SECRET, { expiresIn: '2h' });
 };
 
 // User Registration
