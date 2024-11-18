@@ -23,8 +23,9 @@ export default function Map() {
  
     console.log("flying")
     mapRef.current.flyTo({
-      center: [-75.378259, 40.607314],
-      zoom: 14,
+      center: [-75.376259, 40.606814],
+      zoom: 16,
+      pitch: 60,
       essential: true
     });   
 
