@@ -24,9 +24,9 @@ function Login() {
 
         if (response.ok) {
           console.log('Login successful:', data);
-          /* 
-          Need to pass token here 
-          */
+          localStorage.setItem('token', data.token);
+          // To access the token use:
+          // const token = localStorage.getItem('token');
           navigate('/map');
         } else {
           console.error('Login failed:', data.message || data.errors);
@@ -37,7 +37,6 @@ function Login() {
         alert('An error occurred. Please try again.');
       }
     };
-
 
     const handleSignUp = async () => {
       navigate('/signup')

@@ -69,13 +69,13 @@ exports.login = async (req, res) => {
         // Check if user exists
         const user = await UserModel.findByPk(username);
         if (!user) {
-            return res.status(400).json({ message: 'Invalid credentials 1' });
+            return res.status(400).json({ message: 'Invalid Credentials' });
         }
 
         // Compare password
         const isMatch = await bcrypt.compare(password, user.password);
         if (!isMatch) {
-            return res.status(400).json({ message: 'Invalid credentials 2' });
+            return res.status(400).json({ message: 'Invalid Credentials' });
         }
 
         // Generate JWT token

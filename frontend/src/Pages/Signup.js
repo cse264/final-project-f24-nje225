@@ -33,8 +33,6 @@ function SignUp() {
 
         if (response.ok) {
           console.log('Registration successful:', data);
-          // Save token if needed
-          // localStorage.setItem('token', data.token);
           navigate('/');
         } else {
           console.error('Registration failed:', data.message || data.errors);
