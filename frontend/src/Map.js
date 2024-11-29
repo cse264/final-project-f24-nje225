@@ -82,6 +82,8 @@ export default function Map() {
 
         // creaet an event marker for each feature aka each building
         marker.getElement().addEventListener('click', () => {
+          // Have a database call here to get all bathrooms for building with name: name
+          // Populate some sort of popup with 
           console.log(`Marker "${name}" clicked`);
           navigate(`/reviews/${name}`);
         });
