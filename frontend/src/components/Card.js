@@ -1,10 +1,7 @@
-import { useRef, useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom';
+import { useEffect, useState } from 'react'
 import BathroomEntry from './BathroomEntry';
 
 export default function Card(props) {
-
-  const navigate = useNavigate();
 
   const [data, setData] = useState([]);
 
@@ -17,7 +14,6 @@ export default function Card(props) {
         }
       });
       const jsonData = await response.json();
-      console.log("fetched for " + props.name)
       setData(jsonData.bathrooms);
     };
 
@@ -26,8 +22,9 @@ export default function Card(props) {
 
   return(
     <div class="card">
-        <div class="card-header">Bathrooms for {props.name}. Rating: {props.rating}</div>
-        {data.map((item,index)=>(<BathroomEntry buildingId={props.buildingId} bathroomId={item.id}></BathroomEntry>))}
+        <h2 class="card-header">Bathrooms for {props.name}. Rating: {props.rating ? props.rating : "N/A"}</h2>
+        <hr></hr>
+        {data.map((item,index)=>(<><BathroomEntry data={item}></BathroomEntry><hr/></>))}
     </div>
   )
 }
