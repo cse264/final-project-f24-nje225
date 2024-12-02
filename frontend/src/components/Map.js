@@ -70,7 +70,11 @@ export default function Map() {
           const {id, name, rating} = feature.properties;
 
           // r = 250 - rating * 50, g = rating * 50 
-          let color = `rgb(${250 - rating * 50}, ${rating * 50}, 50)`;
+          const red = Math.round( Math.min( (Math.log10(102-40*(rating-1.9))*125), 200));
+          const green = Math.round( Math.min( (Math.log10(40*(rating-1.9)+2)*125), 200));
+          let color = `rgb(${red}, ${green}, 50)`;
+          // let color = `rgb(${250 - rating * 50}, ${rating * 50}, 50)`;
+
           
           // make a new marker for each feature
           const marker = new mapboxgl.Marker({color: color})
