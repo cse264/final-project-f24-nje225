@@ -60,16 +60,21 @@ function Login() {
         >
           <div
             style={{
-              width: '300px',
+              width: '400px',
+              height: '300px',
+              display: 'flex', // Add this
+              flexDirection: 'column', // Stack elements vertically
+              justifyContent: 'center', // Center vertically
+              alignItems: 'center', // Center horizontally
               textAlign: 'center',
               border: '1px solid #ccc',
               padding: '20px',
               borderRadius: '5px',
-              backgroundColor: '#fff',
+              backgroundColor: '#F5F5DC',
               boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.1)',
             }}
           >
-            <h2>Lehigh Loo Review</h2>
+            <h1>Lehigh Loo Review</h1>
             <form onSubmit={handleLogin}>
               <div style={{ marginBottom: '15px' }}>
                 <input
@@ -78,7 +83,7 @@ function Login() {
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
                   style={{
-                    width: '100%',
+                    width: '400px',
                     padding: '8px',
                     marginTop: '5px',
                     boxSizing: 'border-box',
@@ -92,7 +97,7 @@ function Login() {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   style={{
-                    width: '100%',
+                    width: '400px',
                     padding: '8px',
                     marginTop: '5px',
                     boxSizing: 'border-box',
@@ -103,9 +108,10 @@ function Login() {
               <button
                 type="submit"
                 style={{
-                  padding: '10px 20px',
-                  backgroundColor: '#28a745',
-                  color: '#fff',
+                  padding: '10px',
+                  backgroundColor: '#2A5678',
+                  color: 'white',
+                  width: '200px',
                   border: 'none',
                   borderRadius: '5px',
                   cursor: 'pointer',
@@ -117,10 +123,11 @@ function Login() {
             <button
                 onClick={handleSignUp}
                 style={{
+                  
                     background: 'none',
                     color: '#007BFF',
                     border: 'none',
-                    padding: '0',
+                    padding: '10px',
                     cursor: 'pointer',
                     textDecoration: 'underline',
                     fontSize: '14px',
