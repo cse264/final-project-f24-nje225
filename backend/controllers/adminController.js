@@ -153,3 +153,30 @@ exports.addBuilding = async (req, res) => {
         res.status(500).json({ message: 'Error adding building' });
     }
 }
+
+exports.updateBuilding = async (req, res) => {
+    const { id } = req.params;
+    const { latitude, longitude } = req.body;
+
+    try {
+        const building = await Building.findByPk(id);
+
+        if (!building) {
+            return res.status(404).json({ message: 'Building not found' });
+        }
+
+        // Update the building with new details
+        await building.update({
+            latitude,
+            longitude,
+        });
+
+        res.status(200).json({
+            message: 'Building details updated successfully',
+            building,
+        });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ message: 'Error updating building' });
+    }
+}
