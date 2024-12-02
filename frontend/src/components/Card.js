@@ -22,7 +22,7 @@ export default function Card(props) {
 
   return(
     <div class="card">
-        <h2 class="card-header">Bathrooms for {props.name}. Rating: {props.rating ? props.rating : "N/A"}</h2>
+        <h2 class="card-header">Bathrooms for {props.name}. Rating: {props.rating ? Math.round(props.rating*10)/10 : "N/A"}</h2>
         <hr></hr>
         {data.map((item,index)=>(<><BathroomEntry data={item}></BathroomEntry><hr/></>))}
     </div>
