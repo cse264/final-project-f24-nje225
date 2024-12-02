@@ -73,6 +73,8 @@ const AdminScreen = () => {
         headers: { Authorization: `Bearer ${token}` },
       });
       setResponse({ message: `Review with ID ${reviewID} deleted successfully` });
+      // refresh page?
+      window.location.reload();
     } catch (err) {
       setError(err.response?.data?.message || err.message || 'An error occurred');
     } finally {

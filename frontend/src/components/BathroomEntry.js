@@ -7,7 +7,7 @@ export default function BathroomEntry(props) {
 
   return(
     <div class="bathroom">
-    <b>{data.averageRating}/5</b> {data.description}
+    <b>{Math.round(data.averageRating*10)/10}/5</b> {data.description}
     <button class="to-reviews" onClick={()=>navigate(`/reviews/${data.buildingId}/${data.id}`)}>Link to reviews</button>
     </div>
   )
