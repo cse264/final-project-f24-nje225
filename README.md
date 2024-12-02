@@ -19,7 +19,7 @@
   4. Open a browser and navigate to `localhost:3000`
 
 ### API Keys Needed
-Everything should be in the .env file
+Everything should be in the .env and the ca.pem file, which is included in the repository.
 
 ### Description
 Lehigh Loo Review is a web application that allows users to review and rate the bathrooms on Lehigh's campus. Users can create an account, log in, and leave reviews for bathrooms they have used. They can also view reviews left by other users. Admins have the ability to delete reviews, add new building and bathrooms.
@@ -28,13 +28,13 @@ Lehigh Loo Review is a web application that allows users to review and rate the 
 ##### User Accounts and Roles:
 Users can leave reviews, rate bathrooms, and view locations on the map, while Admins can manage content, flag inappropriate reviews, and approve or remove bathroom locations.
 ##### Database Integration:
-We’ll use PostgreSQL as our database to store user information, bathroom locations, reviews, and ratings. 
+We use PostgreSQL as our database to store user information, bathroom locations, reviews, and ratings. 
 ##### Interactive UI:
-The website will feature an interactive map where users can view and select bathrooms. Users can click on specific bathroom icons to see ratings, reviews, and other details.
+The website features an interactive map where users can view and select bathrooms. Users can click on specific bathroom icons to see ratings, reviews, and other details.
 ##### New Library/Framework Usage:
 We use Mapbox to embed a map interface and display locations of bathrooms across Lehigh University. 
 ##### External REST API:
-We will add a weather API into our website so that users can see the weather in the area.
+We added a weather API into our website so that users can see the weather in the area.
 
 ### User Story:
 ##### User
