@@ -17,9 +17,19 @@ html, body {
 .title-container {
   display: flex;
   align-items: center; /* Vertically align logo and text */
-  justify-content: center;
+  padding:1% 7%;
+  color: rgb(0, 0, 0);
+}
+
+table {
+  border-color: red;
+  width: 100%;
+}
+
+.weather {
   padding:1%;
   color: rgb(0, 0, 0);
+  white-space: pre;
 }
 
 .title-container img {
@@ -68,6 +78,26 @@ html, body {
   width:40%;
   height:75%;
   margin: 40px;
-  background-color: red;
+  background-color: rgb(212, 211, 207);
+  border-width: 5px;
+  border-color: black;
   border-radius: 20px;
+}
+.card-header{
+  text-align: center;
+}
+
+.to-reviews{
+  display: flex;
+  float: right;
+  padding: 5px;
+  border-radius: 5px;
+}
+
+.bathroom{
+  padding: 10px;
+}
+
+h2 + hr{
+  border-width: 2px;
 }
