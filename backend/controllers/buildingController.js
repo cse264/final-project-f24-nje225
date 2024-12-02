@@ -15,7 +15,7 @@ exports.getBuildings = async (req, res) => {
                     include: [
                         {
                             model: Review,
-                            attributes: ['rating'], // Include reviews for each bathroom
+                            attributes: ['id','content', 'rating', 'createdAt'], // Include reviews for each bathroom
                         },
                     ],
                 },
@@ -113,10 +113,7 @@ exports.getBathrooms = async (req, res) => {
                 },
             ],
         });
-
-        if (!bathrooms.length) {
-            return res.status(404).json({ message: 'No bathrooms found' });
-        }
+        
         // get average ratings
         for (const bathroom of bathrooms) {
             let totalRating = 0;

@@ -19,15 +19,21 @@ function Login() {
             password,
           }),
         });
-
+    
         const data = await response.json();
-
+    
         if (response.ok) {
           console.log('Login successful:', data);
+    
+          // Store token in localStorage
           localStorage.setItem('token', data.token);
-          // To access the token use:
-          // const token = localStorage.getItem('token');
-          navigate('/map');
+    
+          // Redirect based on role
+          if (data.role === 'admin') {
+            navigate('/admin'); // Redirect to admin screen
+          } else {
+            navigate('/map'); // Redirect to map screen
+          }
         } else {
           console.error('Login failed:', data.message || data.errors);
           alert(data.message || 'Failed to login');

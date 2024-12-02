@@ -78,13 +78,14 @@ exports.login = async (req, res) => {
             return res.status(400).json({ message: 'Invalid Credentials' });
         }
 
-        // Generate JWT token
-        const token = generateToken(user._id, user.role);
+        // Generate JWT token (include user role in the payload)
+        const token = generateToken(user.username, user.role); // Ensure generateToken includes role in the payload
 
-        // Send response
+        // Send response with token and role
         res.status(200).json({
             message: 'Login successful',
             token,
+            role: user.role, // Include user role in the response
         });
     } catch (err) {
         console.error(err);
