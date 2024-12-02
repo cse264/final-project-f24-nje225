@@ -68,9 +68,12 @@ export default function Map() {
         data.features.forEach((feature) => {
           const coordinates = feature.geometry.coordinates;
           const {id, name, rating} = feature.properties;
+
+          // r = 250 - rating * 50, g = rating * 50 
+          let color = `rgb(${250 - rating * 50}, ${rating * 50}, 50)`;
           
           // make a new marker for each feature
-          const marker = new mapboxgl.Marker()
+          const marker = new mapboxgl.Marker({color: color})
           .setLngLat(coordinates)
           .addTo(mapRef.current);
           

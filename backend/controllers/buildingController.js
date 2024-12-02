@@ -178,6 +178,12 @@ exports.getReviews = async (req, res) => {
         const reviews = await Review.findAll({
             where: { bathroomId },
             attributes: ['id', 'rating', 'content', 'createdAt'],
+            include: [
+                {
+                    model: Flag,
+                    attributes: ['id'],
+                },
+            ],
         });
 
         if (!reviews.length) {

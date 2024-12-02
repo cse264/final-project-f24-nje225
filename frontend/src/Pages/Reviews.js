@@ -27,8 +27,14 @@ const Reviews = () => {
         const sortedReviews = res.data.reviews.sort(
           (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
         );
+        console.log(sortedReviews);
+        // set whether or not the review is flagged (the flags array is not empty)
+        sortedReviews.forEach(review => {
+          review.flagged = review.Flags.length > 0;
+        });
         setReviews(sortedReviews);
       } catch (err) {
+        console.log(err);
         setError(err.response?.data?.message || 'Error fetching reviews');
       } finally {
         setLoading(false);
@@ -70,8 +76,31 @@ const Reviews = () => {
     }
   };
 
-  return (
+  const handleFlagReview = async (reviewId) => {
+    const storedToken = localStorage.getItem('token');
+
+    try {
+      setLoading(true);
+      await axios.put(
+        // from backend:  router.put('/:id/bathrooms/:bathroomId/reviews/:reviewId/flag', authMiddleware, flagReview);
+        `http://localhost:5000/api/buildings/${id}/bathrooms/${bathroomId}/reviews/${reviewId}/flag`,
+        {},
+        {
+          headers: { Authorization: `Bearer ${storedToken}` },
+        }
+      );
+      window.location.reload();
+    } catch (err) {
+      setError(err.response?.data?.message || 'Error flagging review');
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  return ( 
     <div style={{ padding: '20px', maxHeight: '100vh', overflowY: 'auto' }}>
+      {/* add a back to map button in top left */}
+      <button onClick={()=>window.history.back()} style={{position: 'absolute', top: '10px', left: '10px', padding: '10px', backgroundColor: '#2A5678', color: 'white', border: 'none', borderRadius: '5px', cursor: 'pointer'}}>Back to Map</button>
       <h1 style={{ textAlign: 'center' }}>Bathroom Reviews</h1>
 
       {/* Add Review Form */}
@@ -141,6 +170,27 @@ const Reviews = () => {
                 }}
               >
                 <h3>Rating: {review.rating}/5</h3>
+                { review.flagged ? <b style={{
+                    padding: '5px 10px',
+                    backgroundColor: '#FF6347',
+                    color: 'white',
+                    border: 'none',
+                    borderRadius: '5px',
+                    float: 'right',
+                  }}> Review has been Flagged</b> :
+                <button
+                  onClick={() => handleFlagReview(review.id)}
+                  style={{
+                    padding: '5px 10px',
+                    backgroundColor: '#FF6347',
+                    color: 'white',
+                    border: 'none',
+                    borderRadius: '5px',
+                    cursor: 'pointer',
+                    float: 'right',
+                  }}
+                >Flag Review</button> 
+                }
                 <p>{review.content}</p>
                 <p style={{ fontSize: '12px', color: '#666' }}>
                   {new Date(review.createdAt).toLocaleString()}
