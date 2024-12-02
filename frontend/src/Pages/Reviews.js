@@ -9,9 +9,41 @@ const Reviews = () => {
   const [error, setError] = useState(null);
   const [reviewContent, setReviewContent] = useState(''); // State for new review content
   const [reviewRating, setReviewRating] = useState(''); // State for new review rating
+  const [bathroom, setBathroom] = useState(null); // State to store bathroom data
 
   // Fetch reviews on component mount
   useEffect(() => {
+    const fetchBathroom = async () => {
+      const storedToken = localStorage.getItem('token');
+      setLoading(true);
+      setError(null);
+
+      try {
+        const res = await axios.get(
+          `http://localhost:5000/api/buildings/${id}/bathrooms/${bathroomId}`,
+          {
+            headers: { Authorization: `Bearer ${storedToken}` },
+          }
+        );
+        const bathroomData = res.data.bathroom;
+        setBathroom(bathroomData);
+
+        // Sort and flag reviews
+        const sortedReviews = bathroomData.Reviews.sort(
+          (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+        );
+        sortedReviews.forEach((review) => {
+          review.flagged = review.Flags && review.Flags.length > 0;
+        });
+        setReviews(sortedReviews);
+      } catch (err) {
+        console.log(err);
+        setError(err.response?.data?.message || 'Error fetching bathroom details');
+      } finally {
+        setLoading(false);
+      }
+    };
+    
     const fetchReviews = async () => {
       const storedToken = localStorage.getItem('token');
       setLoading(true);
@@ -41,6 +73,7 @@ const Reviews = () => {
       }
     };
 
+    fetchBathroom();
     fetchReviews();
   }, [id, bathroomId]); // Re-run if buildingId or bathroomId changes
 
@@ -101,7 +134,15 @@ const Reviews = () => {
     <div style={{ padding: '20px', maxHeight: '100vh', overflowY: 'auto' }}>
       {/* add a back to map button in top left */}
       <button onClick={()=>window.history.back()} style={{position: 'absolute', top: '10px', left: '10px', padding: '10px', backgroundColor: '#2A5678', color: 'white', border: 'none', borderRadius: '5px', cursor: 'pointer'}}>Back to Map</button>
-      <h1 style={{ textAlign: 'center' }}>Bathroom Reviews</h1>
+      {/* Bathroom Details */}
+      {bathroom ? (
+        <div style={{ textAlign: 'center', marginBottom: '20px' }}>
+          <h1>{bathroom.name + ' Reviews'}</h1>
+        </div>
+      ) : (
+        <p>Loading bathroom details...</p>
+      )}
+
 
       {/* Add Review Form */}
       <form onSubmit={handleAddReview} style={{ marginBottom: '20px', textAlign: 'center'}}>
