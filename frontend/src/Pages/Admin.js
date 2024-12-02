@@ -24,6 +24,8 @@ const AdminScreen = () => {
   const [reviewRating, setReviewRating] = useState('');
   const [reviewId, setReviewId] = useState('');
 
+  const [flaggedReviews, setFlaggedReviews] = useState([]);
+
   
 
   // Auto-populate token on component mount
@@ -32,22 +34,45 @@ const AdminScreen = () => {
     if (storedToken) {
       setToken(storedToken);
     }
+    // fetch flagged reviews
+    const fetchFlaggedReviews = async () => {
+      setLoading(true);
+      setError(null);
+
+      try {
+        const res = await axios.get('http://localhost:5000/api/admin/reviews/flagged', {
+          headers: { Authorization: `Bearer ${storedToken}` },
+        });
+        console.log(res.data.flaggedReviews);
+        setFlaggedReviews(res.data.flaggedReviews);
+      } catch (err) {
+        setError(err.response?.data?.message || err.message || 'An error occurred');
+      } finally {
+        setLoading(false);
+      }
+    }
+    fetchFlaggedReviews();
   }, []);
 
   // Delete a specific review
-  const handleDeleteReview = async () => {
+  const handleDeleteReview = async (reviewID) => {
     setLoading(true);
     setError(null);
     setResponse(null);
 
     try {
-      const res = await axios.delete(
-        `http://localhost:5000/api/buildings/${buildingId}/bathrooms/${bathroomId}/reviews/${reviewId}`,
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        }
-      );
-      setResponse({ message: `Review with ID ${reviewId} deleted successfully` });
+      // const res = await axios.delete(
+      //   `http://localhost:5000/api/admin/reviews/${reviewID}`,
+      //   {
+      //     headers: { Authorization: `Bearer ${token}` },
+      //   }
+      // );
+      // res.data.message = `Review with ID ${reviewID} deleted successfully`; use fetch instead
+      const res = await fetch(`http://localhost:5000/api/admin/reviews/${reviewID}`, {
+        method: 'DELETE',
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      setResponse({ message: `Review with ID ${reviewID} deleted successfully` });
     } catch (err) {
       setError(err.response?.data?.message || err.message || 'An error occurred');
     } finally {
@@ -203,19 +228,30 @@ const AdminScreen = () => {
 
   return (
     <div style={{ padding: '20px', maxHeight: '100vh', overflowY: 'auto' }}>
-      <h1>Admin Testing Screen</h1>
+      <h1>Admin Suite</h1>
 
-      {/* JWT Token Input */}
-      <div style={{ marginBottom: '20px' }}>
-        <label>JWT Token:</label>
-        <input
-          type="text"
-          value={token}
-          onChange={(e) => setToken(e.target.value)}
-          placeholder="Paste JWT Token here"
-          style={{ width: '100%', padding: '10px', marginBottom: '10px' }}
-        />
+      {/* List of flagged reviews */}
+      <div style={{ marginBottom: '40px' }}>
+        <h3>Flagged Reviews</h3>
+        {loading ? (
+          <p>Loading...</p>
+        ) : flaggedReviews.length ? (
+          <ul>
+            {flaggedReviews.map((flag) => (
+              <li key={flag.id}>
+                <p>
+                  <strong style={{margin: '5px'}}>Review ID: {flag.Review.id} </strong>
+                  <strong style={{margin: '5px'}}>Content: {flag.Review.content} </strong> 
+                  <button onClick={() => handleDeleteReview(flag.Review.id)} style={{ marginLeft: '10px' }}> Delete </button>
+                </p>
+                </li>
+            ))}
+          </ul>
+        ) : (
+          <p>No flagged reviews found</p>
+        )}
       </div>
+
 
       {/* Buildings Section */}
       <div style={{ marginBottom: '40px' }}>
