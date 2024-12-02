@@ -136,11 +136,11 @@ exports.getBathrooms = async (req, res) => {
 
 // Get a specific bathroom by its ID
 exports.getBathroom = async (req, res) => {
-    const { id } = req.params;
+    const { bathroomId } = req.params;
 
     try {
         // Fetch the bathroom with its reviews based on the given ID
-        const bathroom = await Bathroom.findByPk(id, {
+        const bathroom = await Bathroom.findByPk(bathroomId, {
             include: [
                 {
                     model: Review,

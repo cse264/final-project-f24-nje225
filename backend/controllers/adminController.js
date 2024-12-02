@@ -21,10 +21,6 @@ exports.getFlaggedReviews = async (req, res) => {
                     model: Review,
                     attributes: ['id', 'content', 'rating'],  // Include review details
                 },
-                {
-                    model: User,  // Assuming user is the one who flagged the review
-                    attributes: ['username', 'email'],
-                },
             ],
         });
 
@@ -41,10 +37,10 @@ exports.getFlaggedReviews = async (req, res) => {
 
 // Delete a flagged review (for admins)
 exports.deleteFlaggedReview = async (req, res) => {
-    const { reviewId } = req.params;
+    const { id } = req.params;
 
     try {
-        const review = await Review.findByPk(reviewId);
+        const review = await Review.findByPk(id);
 
         if (!review) {
             return res.status(404).json({ message: 'Review not found' });
