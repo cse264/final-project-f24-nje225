@@ -228,7 +228,16 @@ const AdminScreen = () => {
 
   return (
     <div style={{ padding: '20px', maxHeight: '100vh', overflowY: 'auto' }}>
-      <h1>Admin Suite</h1>
+      <h1>Admin Suite <button
+        onClick={() => {
+          window.location.href = '/map';
+        }}
+        style={{ padding: '10px 15px', cursor: 'pointer', marginRight: '10px', float: 'right' }}
+      >
+        Go to Map
+      </button></h1>
+      {/*Button to go to map, over to the right*/}
+      
 
       {/* List of flagged reviews */}
       <div style={{ marginBottom: '40px' }}>
