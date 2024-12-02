@@ -1,5 +1,6 @@
 import React from 'react';
 import Map from '../components/Map';
+import News from '../components/News';
 import '../App.css';
 import logo from '../LooReviewFinal.png';
 
@@ -12,6 +13,9 @@ function MapPage(){
             </div>
             <div id="map-container">
                 <Map />
+            </div>
+            <div id="news-container">
+                <News />
             </div>
         </div>
     )
