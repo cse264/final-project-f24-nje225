@@ -18,7 +18,7 @@ html, body {
   display: flex;
   align-items: center; /* Vertically align logo and text */
   justify-content: center;
-  padding:2%;
+  padding:1%;
   color: rgb(0, 0, 0);
 }
 
@@ -37,7 +37,7 @@ html, body {
 /* Container holding the map */
 #map-container {
   width: 90%; /* Map width */
-  height: 80%; /* Map height */
+  height: 85%; /* Map height */
   border-radius: 40px; /* Rounded corners */
   box-shadow: 0 6px 10px rgba(0, 0, 0, 0.75); /* shadow */ 
 }
@@ -48,4 +48,26 @@ html, body {
   height: 100%; /* Fill the parent container */
   border-radius: inherit; /* Inherit rounded corners */
   overflow: hidden; /* Prevent map overflow */
+}
+/* Escape button */
+.escape-button {
+  width: 10%;
+  height: 5%;
+  z-index: 1;
+  z-index: 1;
+  border-radius: 10px;
+  position: absolute;
+  right: 5%;
+  margin-right: 20px;
+  margin-top: 20px; 
+}
+
+.card{
+  z-index: 1;
+  position: absolute;
+  width:40%;
+  height:75%;
+  margin: 40px;
+  background-color: red;
+  border-radius: 20px;
 }
