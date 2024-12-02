@@ -46,62 +46,26 @@ export default function Map() {
 
     //TODO CHANGE THESE TO COME FROM THE BACKEND
     //probably going to have to use map
-    const data = {
-      type: "FeatureCollection",
-      features: [
-        {
-          type: "Feature",
-          geometry: {
-            type: "Point",
-            coordinates: [-75.379013, 40.607830],
-          },
-          properties:{
-            id: "2",
-            name: "Packard",
-            rating: null,
-          }
-        },
-        // {
-        //   type: "Feature",
-        //   geometry: {
-        //     type: "Point",
-        //     coordinates: [-75.377284, 40.608541],
-        //   },
-        //   properties:{
-        //     id: "NV",
-        //     name: "Neville"
-        //   }
-        // },
-        {
-          type: "Feature",
-          geometry: {
-            type: "Point",
-            coordinates: [-75.377899, 40.608727],
-          },
-          properties:{
-            id: "1",
-            name: "FML",
-            rating: 3.8
-          }
-        },
-      ],
-    };
 
+    // get data from backend
     const token = localStorage.getItem('token');
-    const data2 = fetch('http://localhost:5000/api/buildings/', {
+    fetch('http://localhost:5000/api/buildings/', {
       headers:{
         "Authorization": "Bearer " + token
       }
-    }).then(res=>res.json()).then(r=> console.log(r));
-      
-    // add markers to the map
-    mapRef.current.on('load', () => {
-      data.features.forEach((feature) => {
-        const coordinates = feature.geometry.coordinates;
-        const {id, name} = feature.properties;
-
+    } )
+    .then(res => res.json())
+    .then(data => {
+      console.log(data)
+      data.buildings.forEach((building) => {
+        const coordinates = [building.latitude, building.longitude];
+        const {id, name, averageRating} = building;
+        console.log("Building: " + name + " Rating: " + averageRating)
+        // generate color for marker from red to green based on rating
+        let color = {r: 255 - averageRating * 50, g: averageRating * 50, b: 50}
+        
         // make a new marker for each feature
-        const marker = new mapboxgl.Marker()
+        const marker = new mapboxgl.Marker({color: `rgb(${color.r},${color.g},${color.b})`})
           .setLngLat(coordinates)
           .addTo(mapRef.current);
 
@@ -110,7 +74,7 @@ export default function Map() {
           // Have a database call here to get all bathrooms for building with name: name
           // Populate some sort of popup with 
           console.log(`Marker "${name}" clicked`);
-          setBuildingInfo(feature.properties)
+          setBuildingInfo({id, name, rating: averageRating})
           setShowCard(true)
           mapRef.current.easeTo({
             center: coordinates,
@@ -120,8 +84,84 @@ export default function Map() {
           // navigate(`/reviews/${name}`);
         });
       });
-
     });
+
+    // const data = {
+    //   type: "FeatureCollection",
+    //   features: [
+    //     {
+    //       type: "Feature",
+    //       geometry: {
+    //         type: "Point",
+    //         coordinates: [-75.379013, 40.607830],
+    //       },
+    //       properties:{
+    //         id: "2",
+    //         name: "Packard",
+    //         rating: null,
+    //       }
+    //     },
+    //     // {
+    //     //   type: "Feature",
+    //     //   geometry: {
+    //     //     type: "Point",
+    //     //     coordinates: [-75.377284, 40.608541],
+    //     //   },
+    //     //   properties:{
+    //     //     id: "NV",
+    //     //     name: "Neville"
+    //     //   }
+    //     // },
+    //     {
+    //       type: "Feature",
+    //       geometry: {
+    //         type: "Point",
+    //         coordinates: [-75.377899, 40.608727],
+    //       },
+    //       properties:{
+    //         id: "1",
+    //         name: "FML",
+    //         rating: 3.8
+    //       }
+    //     },
+    //   ],
+    // };
+
+    // const token = localStorage.getItem('token');
+    // const data2 = fetch('http://localhost:5000/api/buildings/', {
+    //   headers:{
+    //     "Authorization": "Bearer " + token
+    //   }
+    // }).then(res=>res.json()).then(r=> console.log(r));
+      
+    // // add markers to the map
+    // mapRef.current.on('load', () => {
+    //   data.features.forEach((feature) => {
+    //     const coordinates = feature.geometry.coordinates;
+    //     const {id, name} = feature.properties;
+
+    //     // make a new marker for each feature
+    //     const marker = new mapboxgl.Marker()
+    //       .setLngLat(coordinates)
+    //       .addTo(mapRef.current);
+
+    //     // creaet an event marker for each feature aka each building
+    //     marker.getElement().addEventListener('click', () => {
+    //       // Have a database call here to get all bathrooms for building with name: name
+    //       // Populate some sort of popup with 
+    //       console.log(`Marker "${name}" clicked`);
+    //       setBuildingInfo(feature.properties)
+    //       setShowCard(true)
+    //       mapRef.current.easeTo({
+    //         center: coordinates,
+    //         zoom: 18,
+    //         offset: [100,0]
+    //       })
+    //       // navigate(`/reviews/${name}`);
+    //     });
+    //   });
+    //
+    //});
   }, []);
 
   function escape() {
